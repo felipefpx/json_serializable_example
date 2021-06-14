@@ -1,4 +1,10 @@
 void main() {
+  try {
+    print('0: ${null as String}');
+  } catch (e) {
+    print('0: Ops! ${e.toString()}');
+  }
+
   final emptyJson = <String, dynamic>{};
 
   try {
@@ -10,7 +16,7 @@ void main() {
     final String bar = emptyJson['bar'] as String;
     print('1: bar = $bar');
   } catch (e) {
-    print('1: ${e.toString()}');
+    print('1: Ops! ${e.toString()}');
   }
 
   final nullValuesJson = <String, dynamic>{'foo': null, 'bar': null};
@@ -23,6 +29,6 @@ void main() {
     final String bar = nullValuesJson['bar'] as String;
     print('2: bar = $bar');
   } catch (e) {
-    print('2: ${e.toString()}');
+    print('2: Ops! ${e.toString()}');
   }
 }

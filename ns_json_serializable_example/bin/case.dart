@@ -2,8 +2,13 @@ import 'models/foo.dart';
 import 'models/foo_fixed.dart';
 
 void runCase() {
-  final emptyJson = <String, dynamic>{'bar': <String, dynamic>{}};
+  try {
+    print('0: ${null as String}');
+  } catch (e) {
+    print('0: Ops! ${e.toString()}');
+  }
 
+  final emptyJson = <String, dynamic>{'bar': <String, dynamic>{}};
   try {
     final value = Foo.fromJson(emptyJson);
     print('1: value.foo = ${value.foo}');

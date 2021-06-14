@@ -1,6 +1,9 @@
 void main() {
   final emptyJson = <String, dynamic>{};
 
+  // ignore: unnecessary_cast
+  print('0: ${null as String}');
+
   try {
     // ignore: omit_local_variable_types
     final String foo = emptyJson['foo'] as String;
