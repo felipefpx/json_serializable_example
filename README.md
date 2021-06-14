@@ -158,7 +158,7 @@ part 'foo_fixed.g.dart';
 ...
 ```
 
-When you run `$ make build-generators` it will generate the code bellow:
+When you run `$ make build-generators` it will generate the [foo_fixed.g.dart](ns_json_serializable_example/bin/models/foo_fixed.g.dart):
 ```dart
 part of 'foo_fixed.dart';
 
