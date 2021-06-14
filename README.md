@@ -47,7 +47,7 @@ Foo _$FooFromJson(Map<String, dynamic> json) {
 
 As you can see, the parser function will try to get a field from `json` called `foo_nullable` and cast to `String` type. 
 
-If `foo_nullable` is absent on `json` (key doesn't exist), both `json['foo_nullable']` and `json['foo_nullable']` will be null, because the `null as String` is equals to `null` in dart version <2.12 (no null safety support).
+If `foo_nullable` is absent on `json` (key doesn't exist), both `json['foo_nullable']` and `json['foo_nullable']` will be null, because the `null as String` is equal to `null` in dart version <2.12 (no null safety support).
 
 
 In order to check it, you can run the old json serializable example:
@@ -137,9 +137,9 @@ $ dart --no-sound-null-safety ns_json_serializable_example/bin/sound_example.dar
 ...
 ```
 
-Oh, no! It also makes sense, because before null safety `null as String` is equals to `null`. What could we do to ensure the project to throws an error instead of propagating `null`?
+Oh, no! It also makes sense, because before null safety `null as String` is equals to `null`. What could we do to ensure the project throws an error instead of propagating `null`?
 
-`json_serializable` and `json_annotations` provides some useful key checks that can be used to solve this problem. Lets check the [foo_fixed.dart](ns_json_serializable_example/bin/models/foo_fixed.dart):
+`json_serializable` and `json_annotations` provide some useful key checks that can be used to solve this problem. Let's check the [foo_fixed.dart](ns_json_serializable_example/bin/models/foo_fixed.dart):
 
 ```dart
 part 'foo_fixed.g.dart';
@@ -181,7 +181,7 @@ FooFixed _$FooFixedFromJson(Map<String, dynamic> json) {
 
 It will basically call the `$checkKeys` function to ensure that the required keys are present on `json` with a value that is not `null`.
 
-So, if we run the example [case](ns_json_serializable_example/bin/case.dart) again with both dart null-safety and `--no-sound-null-safety` it will thrown an exception when the keys are absent.
+So, if we run the example [case](ns_json_serializable_example/bin/case.dart) again with both dart null-safety and `--no-sound-null-safety` it will throw an exception when the keys are absent.
 
 ```dart
 ...
