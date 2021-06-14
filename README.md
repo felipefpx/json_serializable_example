@@ -4,11 +4,11 @@ This project was created to illustrate an issue you can face when migrating part
 
 Furthermore, this is also useful to learn more about `@JsonKey` properties.
 
-#### Problem statement
+### Problem statement
 
 Consider that you are working in dart project for a big company with hundred packages and you need to bump dart version to 2.12+ in order to make use of null safety benefits, but this process will take too long and you need to interoperate with legacy dart packages while the bump is not completed.
 
-#### Old Json Serializable - No null safety support
+### Old Json Serializable - No null safety support
 
 [foo.dart](old_json_serializable_example/bin/models/foo.dart) is a class with four fields but only two fields are nullable (in order to compare the generated code):
 ```dart
@@ -58,7 +58,7 @@ $ dart old_json_serializable_example/bin/old_json_serializable_example.dart
 2: foo = null
 ```
 
-#### Json Serializable with null safety support
+### Json Serializable with null safety support
 
 Now, consider that you already migrated [foo.dart](ns_json_serializable_example/bin/models/foo.dart):
 ```dart
@@ -161,7 +161,9 @@ part 'foo_fixed.g.dart';
 When you run `$ make build-generators` it will generate the code bellow:
 ```dart
 part of 'foo_fixed.dart';
+
 ...
+
 FooFixed _$FooFixedFromJson(Map<String, dynamic> json) {
   $checkKeys(json,
       requiredKeys: const ['foo', 'bar'],
@@ -175,4 +177,46 @@ FooFixed _$FooFixedFromJson(Map<String, dynamic> json) {
     bar: Bar.fromJson(json['bar'] as Map<String, dynamic>),
   );
 }
+```
+
+It will basically call the `$checkKeys` function to ensure that the required keys are present on `json` with a value that is not `null`.
+
+So, if we run the example case again with both dart null-safety and `--no-sound-null-safety` it will thrown an exception when the keys are absent.
+
+```dart
+...
+  try {
+    print('0: ${null as String}');
+  } catch (e) {
+    print('0: Ops! ${e.toString()}');
+  }
+
+  final emptyJson = <String, dynamic>{'bar': <String, dynamic>{}};
+  try {
+    final value = Foo.fromJson(emptyJson);
+    print('1: value.foo = ${value.foo}');
+  } catch (e) {
+    print('1: Ops! ${e.toString()}');
+  }
+
+  try {
+    final fixedValue = FooFixed.fromJson(emptyJson);
+    print('2: fixedValue.foo = ${fixedValue.foo}');
+  } catch (e) {
+    print('2: Ops! ${e.toString()}');
+  }
+```
+
+```bash
+$ dart --no-sound-null-safety ns_json_serializable_example/bin/sound_example.dart
+0: null
+1: value.foo = null
+2: Ops! Instance of 'MissingRequiredKeysException'
+```
+
+```bash
+$ dart ns_json_serializable_example/bin/sound_example.dart
+0: Ops! type 'Null' is not a subtype of type 'String' in type cast
+1: Ops! type 'Null' is not a subtype of type 'String' in type cast
+2: Ops! Instance of 'MissingRequiredKeysException'
 ```
