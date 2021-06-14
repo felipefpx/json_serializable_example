@@ -94,7 +94,7 @@ Foo _$FooFromJson(Map<String, dynamic> json) {
 }
 ```
 
-If we run the sound_example.dart it will works properly:
+If we run the [sound_example.dart](ns_json_serializable_example/bin/sound_example.dart) it will works properly:
 ```dart
 ...
   try {
@@ -181,7 +181,7 @@ FooFixed _$FooFixedFromJson(Map<String, dynamic> json) {
 
 It will basically call the `$checkKeys` function to ensure that the required keys are present on `json` with a value that is not `null`.
 
-So, if we run the example case again with both dart null-safety and `--no-sound-null-safety` it will thrown an exception when the keys are absent.
+So, if we run the example [case](ns_json_serializable_example/bin/case.dart) again with both dart null-safety and `--no-sound-null-safety` it will thrown an exception when the keys are absent.
 
 ```dart
 ...
